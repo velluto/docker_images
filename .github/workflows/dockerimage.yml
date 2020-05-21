@@ -20,3 +20,10 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
         image-name: python_base
         dockerfile: Dockerfile.python
+
+    - name: Build and Publish Rails Image
+      uses: VaultVulp/gp-docker-action@1.1.1
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
+        image-name: rails_base
+        dockerfile: Dockerfile.rails_app

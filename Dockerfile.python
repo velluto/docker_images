@@ -22,6 +22,9 @@ RUN apt-get update && apt-get install --fix-missing -y curl wget git locales sud
                                          openssh-server python3-pip python-dev libxml2-dev libxslt-dev \
                                          libjpeg-dev zlib1g-dev libpng-dev authbind
 
+RUN wget -P /usr/local/share/ca-certificates/cacert.org http://www.cacert.org/certs/root.crt http://www.cacert.org/certs/class3.crt
+RUN update-ca-certificates
+
 RUN /bin/bash -l -c 'pip3 install flask'
 RUN /bin/bash -l -c 'pip3 install gunicorn'
 
