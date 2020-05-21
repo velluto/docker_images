@@ -1,0 +1,27 @@
+# mainsite-build Dockerfile
+# This is intended only to assist in building mainsite and its gems
+# Containers from this image are not intended to be pushed to Production
+# mainly because of their ginormous size
+FROM python:3.8.3-buster
+MAINTAINER Ops <info@velluto.com>
+ENV REFRESHED_AT 2019-03-03
+USER root
+
+# Update 
+
+RUN apt-get update
+RUN apt-get upgrade -y
+
+
+RUN apt-get install -y software-properties-common
+RUN apt-get update
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install --fix-missing -y curl wget git locales sudo nodejs tzdata direnv \ 
+                                         openssh-server python3-pip python-dev libxml2-dev libxslt-dev \
+                                         libjpeg-dev zlib1g-dev libpng-dev authbind
+
+RUN /bin/bash -l -c 'pip3 install flask'
+RUN /bin/bash -l -c 'pip3 install gunicorn'
+

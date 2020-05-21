@@ -1,0 +1,76 @@
+# mainsite-build Dockerfile
+# This is intended only to assist in building mainsite and its gems
+# Containers from this image are not intended to be pushed to Production
+# mainly because of their ginormous size
+FROM ubuntu:bionic
+MAINTAINER Ops <info@velluto.com>
+ENV REFRESHED_AT 2019-03-03
+USER root
+
+# Update 
+
+RUN apt-get update
+RUN apt-get upgrade -y
+
+
+RUN apt-get install -y software-properties-common
+RUN apt-add-repository -y ppa:rael-gc/rvm
+RUN apt-get update
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y  --fix-missing curl wget git locales sudo nodejs tzdata direnv \ 
+                                         openssh-server mysql-client cron
+
+
+# Setup environment
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+# Setup User
+RUN useradd --home /var/rails -M rails -K UID_MIN=5510 -K GID_MIN=5510 -s /bin/bash
+RUN mkdir /var/rails
+RUN mkdir /var/rails/.ssh
+RUN chown -R rails:rails /var/rails
+RUN adduser rails sudo
+RUN echo 'rails ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+
+
+USER rails
+
+RUN sudo apt-get update 
+RUN sudo apt-get install -y rvm
+RUN echo 'source /etc/profile.d/rvm.sh' >> /var/rails/.bashrc
+
+RUN mkdir /var/rails/bundle
+
+ENV BUNDLE_PATH=/var/rails/bundle
+ENV GEM_HOME=/var/rails/bundle
+ENV BUNDLE_BIN=/var/rails/bundle/bin
+ENV PATH="${BUNDLE_PATH}:${PATH}"
+
+# Install Ruby
+ENV RUBY_VERSION 2.3.7
+RUN /bin/bash -l -c 'rvm requirements'
+RUN /bin/bash -l -c 'rvm install $RUBY_VERSION'
+RUN /bin/bash -l -c 'rvm use --default $RUBY_VERSION'
+
+# Install bundler + gems version
+RUN /bin/bash -l -c 'gem update --system'
+RUN /bin/bash -l -c 'gem install bundler -v 1.12.1'
+
+# Can't have build-essential _before_ you build rvm/ruby
+# fpm doesn't play nice with Rubies older than 1.9
+#RUN sudo apt-get install -y ruby ruby-dev rubygems build-essential
+
+RUN sudo usermod -a -G rvm rails
+
+RUN sudo apt-get install -y libmysqlclient-dev
+
+# Clean up
+RUN sudo apt-get autoremove -y
+RUN sudo apt-get clean 
+

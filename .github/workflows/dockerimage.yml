@@ -8,11 +8,15 @@ on:
 
 jobs:
 
-  build:
-
+  build-and-publish-latest:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - uses: actions/checkout@v2 # Checking out the repo
+
+    - name: Build and Publish Python Image
+      uses: VaultVulp/gp-docker-action@1.1.1
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
+        image-name: python_base
+        dockerfile: Dockerfile.python
