@@ -53,7 +53,7 @@ ENV BUNDLE_BIN=/var/rails/bundle/bin
 ENV PATH="${BUNDLE_PATH}:${PATH}"
 
 # Install Ruby
-ENV RUBY_VERSION 2.3.7
+ENV RUBY_VERSION 2.7.1
 RUN /bin/bash -l -c 'rvm requirements'
 RUN /bin/bash -l -c 'rvm install $RUBY_VERSION'
 RUN /bin/bash -l -c 'rvm use --default $RUBY_VERSION'
