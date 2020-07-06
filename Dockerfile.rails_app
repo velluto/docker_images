@@ -30,7 +30,7 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 # Setup User
-RUN useradd --home /var/rails -M rails -K UID_MIN=5510 -K GID_MIN=5510 -s /bin/bash
+RUN useradd --home /var/rails -M rails -K UID_MIN=1000 -K GID_MIN=1000 -s /bin/bash
 RUN mkdir /var/rails
 RUN mkdir /var/rails/.ssh
 RUN chown -R rails:rails /var/rails
