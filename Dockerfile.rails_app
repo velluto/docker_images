@@ -20,7 +20,7 @@ RUN apt-get update
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y  --fix-missing curl wget git locales sudo nodejs tzdata direnv \ 
-                                         openssh-server mysql-client cron imagemagick
+                                         openssh-server mysql-client cron imagemagick libvips libvips-dev
 
 
 # Setup environment
