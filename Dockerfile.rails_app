@@ -2,7 +2,7 @@
 # This is intended only to assist in building mainsite and its gems
 # Containers from this image are not intended to be pushed to Production
 # mainly because of their ginormous size
-FROM ubuntu:bionic
+FROM ubuntu:focal
 MAINTAINER Ops <info@velluto.com>
 ENV REFRESHED_AT 2019-03-03
 USER root
@@ -20,7 +20,8 @@ RUN apt-get update
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y  --fix-missing curl wget git locales sudo nodejs tzdata direnv \ 
-                                         openssh-server mysql-client cron imagemagick libvips libvips-dev
+                                         openssh-server mysql-client cron imagemagick libvips42 libvips-dev
+                                         
 
 
 # Setup environment
