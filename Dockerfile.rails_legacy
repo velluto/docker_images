@@ -2,7 +2,7 @@
 # This is intended only to assist in building mainsite and its gems
 # Containers from this image are not intended to be pushed to Production
 # mainly because of their ginormous size
-FROM ubuntu:focal
+FROM ubuntu:bionic
 MAINTAINER Ops <info@velluto.com>
 ENV REFRESHED_AT 2019-03-03
 USER root
