@@ -45,6 +45,8 @@ USER rails
 RUN sudo apt-get update 
 RUN sudo apt-get install -y rvm
 RUN echo 'source /etc/profile.d/rvm.sh' >> /var/rails/.bashrc
+RUN /bin/bash -l -c 'sudo usermod -a -G rvm rails'
+
 
 RUN mkdir /var/rails/bundle
 
